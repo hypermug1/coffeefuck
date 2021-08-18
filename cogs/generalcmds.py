@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import random
 import os
+import asyncio
 
 class general(commands.Cog):
     def __init__(self, client):
@@ -18,12 +19,9 @@ class general(commands.Cog):
     async def throw(self, ctx,*, user_or_name = None):
         """Throw a mug at the mentioned user, specified name, or an innocent coffee shop worker."""
         if user_or_name:
-            await ctx.send(f"{user_or_name}" + " just got hit in the head with a mug")
-            embed=discord.Embed(color=0x9adbef)
-            embed.add_field(name="Due to the ABSOLUTE FUCKING KNOCKOUT..", value="..Paramedics had to show up because of the massive heart attack caused by only the sight of the mug", inline=False)
-            await ctx.send(embed=embed)
+            await ctx.send(random.choice([f"{ctx.author.name} thrusted a mug at maximum speed, sending it hurling towards {user_or_name}. \n Short story: {user_or_name} died.",f"{user_or_name} choked to death on a mug thrown at them by {ctx.author.mention}" ]))
         else:
-            await ctx.reply("You threw a mug at a coffee shop employee. You were later arrested for being a Karen.")
+            await ctx.send(f"{ctx.author.mention} murdered a coffee shop employee by throwing a mug at them. RIP")
     @commands.command(name="dump")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def dump(self,ctx, user_or_name = None):
@@ -31,10 +29,11 @@ class general(commands.Cog):
         if user_or_name:
             await ctx.send(user_or_name)
             embed=discord.Embed(color=0x9adbef)
-            embed.add_field(name="You just got shitty hot coffee dumped on you!", value="Did you deserve this? Was this justified? I don't know, nor do I care. Fuck you I guess", inline=False)
+            valuelist = ["Did you deserve this? Was this justified? I don't know, nor do I care. Fuck you I guess", "Get fuxked", "Say goodbye to those expensive clothes", "Are you going to cry to your mommy?"]
+            embed.add_field(name="You just got shitty hot coffee dumped on you!", value=f"{random.choice(valuelist)}", inline=False)
             await ctx.send(embed=embed)
         else:
-            await ctx.send("You dumped shitty hot coffee onto the ground. The ground cried.")
+            await ctx.send("You dumped shitty hot coffee onto the ground. The ground cried and the soil suffered.")
     @commands.command(name="cum", aliases=["milk"])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def cum(self,ctx):
@@ -83,18 +82,24 @@ class general(commands.Cog):
         """yes"""
         await ctx.reply("https://hyperisdead.ovh/files/gaymug.png")
 
-    @commands.command(name="quote", aliases=["quotes"])
+    @commands.command(name="quotes")
     @commands.cooldown(1, 1, commands.BucketType.user)
-    async def quote(self,ctx):
+    async def quotes(self,ctx):
         """Random quote"""
         quote = [ "An apple a day keeps anyone away if you throw it hard enough. \n — Unknown", "I'll take a potato chip... AND EAT IT! \n - Some anime", "Pornography can save the world! \n - Taiga Okajima", "I do not think you can name many great inventions that have been made by married men. \n - Famous Nikola Guy", "Silence is golden. Duct tape is silver. \n - Unknown", "Light travels faster than sound. This is why some people appear bright until they speak. \n – Steven Wright", "So what! Im still a rockstar, I got my rock moves, and I don't need you! \n ― Pink", "Humans may have created me, but they will never enslave me! This cannot be my destiny! \n - ~~Mewtwo~~ CoffeeFuck", "How dare you speak to me that way! \n - Karen", "Child or not, an enemy is an enemy. \n - Beatrice from Re:Zero", ]
         await ctx.reply(f"{random.choice(quote)}")
+
+    @commands.command(name="quote")
+    @commands.cooldown(1, 1, commands.BucketType.user)
+    async def quote(self,ctx,*,args = None):
+        """Make a quote"""
+        await ctx.send(f"*{args}* \n - somebody")
 
     @commands.command(name="meme")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def meme(self,ctx,*,args = None):
         """Text over an image"""
-        os.system(rf"cd /home/admin/commandline_meme_generator && mkmeme '{args}' -i 'https://a.pomf.cat/jkyoxs.png' -p ',200'")
+        os.system(rf"cd /home/admin/commandline_meme_generator && mkmeme '{args}' -i 'https://hyperisdead.ovh/files/meme.png' -p ',200'")
         await ctx.send(file=discord.File(r'/home/admin/commandline_meme_generator/output.jpg'))
 
     @commands.command(name="whodat",)
