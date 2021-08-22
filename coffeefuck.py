@@ -37,4 +37,5 @@ async def statustask(client):
     newstatus = random.choice(statuses)
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{newstatus}"))
 
+#loads the "discord.com/developers" bot token in .env and starts the bot.
 client.run(os.getenv('TOKEN'))
