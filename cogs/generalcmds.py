@@ -16,21 +16,20 @@ class general(commands.Cog):
 
     @commands.command(name="throw")
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def throw(self, ctx,*, user_or_name = None):
+    async def throw(self, ctx, member: discord.Member = None):
         """Throw a mug at the mentioned user, specified name, or an innocent coffee shop worker."""
-        if user_or_name:
-            await ctx.send(random.choice([f"{ctx.author.name} thrusted a mug at maximum speed, sending it hurling towards {user_or_name}. \n Short story: {user_or_name} died.",f"{user_or_name} choked to death on a mug thrown at them by {ctx.author.mention}" ]))
+        if member:
+            await ctx.send(random.choice([f"{ctx.author.name} thrusted a mug at maximum speed, sending it hurling towards {member.display_name}. \n Short story: {member.display_name} died.",f"{member.display_name} choked to death on a mug thrown at them by {ctx.author.name}" ]))
         else:
-            await ctx.send(f"{ctx.author.mention} murdered a coffee shop employee by throwing a mug at them. RIP")
+            await ctx.send(f"{ctx.author.name} murdered a coffee shop employee by throwing a mug at them. RIP")
     @commands.command(name="dump")
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def dump(self,ctx, user_or_name = None):
+    async def dump(self,ctx, member: discord.Member = None):
         """dump coffee on the ground or on a mentioned user or specified name."""
-        if user_or_name:
-            await ctx.send(user_or_name)
+        if member:
             embed=discord.Embed(color=0x9adbef)
             valuelist = ["Did you deserve this? Was this justified? I don't know, nor do I care. Fuck you I guess", "Get fuxked", "Say goodbye to those expensive clothes", "Are you going to cry to your mommy?"]
-            embed.add_field(name="You just got shitty hot coffee dumped on you!", value=f"{random.choice(valuelist)}", inline=False)
+            embed.add_field(name=f"{member.display_name}, you just got a hot beverage dumped onto you", value=f"{random.choice(valuelist)}", inline=False)
             await ctx.send(embed=embed)
         else:
             await ctx.send("You dumped shitty hot coffee onto the ground. The ground cried and the soil suffered.")
@@ -54,6 +53,8 @@ class general(commands.Cog):
         """An action towards the mug. What the f*ck who would do this?"""
         if you == "you":
             await ctx.reply("Fuck you too")
+        elif you != "you":
+            await ctx.send("-_-")
         else:
             embed=discord.Embed(color=0x9adbef)
             embed.add_field(name="You fucked the mug.",value="Are you proud of yourself for what you did? You didn't really think about the guilt you would feel, did you? You are now having an existential crisis all because of the unspeakable thing you have just done.", inline=False)
@@ -75,7 +76,7 @@ class general(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def wisdom(self,ctx):
         """the wisdom of the mug"""
-        wisdom = ["Flies making babies in your food? Assert dominance", "If you see a monkey smoking weed and doing crack cocaine, find a golf cart and crash it into a hospital at maximum speed.", "Life sucks. So to get the most out of it, be a d**k", "If you're homeless, just buy a mansion", "Buy a ton of shares of Old MacDonald's farm. Then you'll become \n **C-I-E-I-O**", "Liberals are liberals and conservatives are conservatives and communists are communists and fascists are fascists. That is disturbing.", "F\*** THIS STUPID JOB! I HATE WRITING THESE! I QUIT! I'M DONE! I HATE EVERYONE! I GET PAID 5 CENTS AN HOUR TO WRITE THESE DUMB SENTENCES", "Was the McDonalds fast food worker rude to you? Scream at the top of your lungs for a manager and cry as loud as you can. If a man in a uniform with a shiny badge shows up, spit on them.", "Is your Aaron exploding? I have a solution for that. \n Step 1: **Tie Aaron to a nuclear missle** \n Step 2: **Feed him doritos** \n Step 3: **Fight the federal government** \n Step 4: **Launch Aaron on a peaceful trip to the local orphanage**", "Contrary to popular belief, yo mama is not fat. She's fucking huge lmao", "Never eat things off the ground.", "When fighting competition, make yourself look weak when you're strong and strong when you're weak. When you're trying to get actually strong, of course.", "The whole secret lies in confusing the enemy, so that he cannot fathom our real intent.", "STFU, Blink-182's on.", "Breathe.", "Mankind has got to know his limitations", "Nice Story. Tell it to Reader's Digest.", "Believe it or not, yo mama so stupid that she had you", "Mondo is very gay", "Did you know that CASHEWS COME FROM A FRUIT?", "heehee anus",]
+        wisdom = ["Flies making babies in your food? Assert dominance", "If you see a monkey smoking weed and doing crack cocaine, find a golf cart and crash it into a hospital at maximum speed.", "Life sucks. So to get the most out of it, be a d**k", "If you're homeless, just buy a mansion", "Buy a ton of shares of Old MacDonald's farm. Then you'll become \n **C-I-E-I-O**", "Liberals are liberals and conservatives are conservatives and communists are communists and fascists are fascists. That is disturbing.", "F\*** THIS STUPID JOB! I HATE WRITING THESE! I QUIT! I'M DONE! I HATE EVERYONE! I GET PAID 5 CENTS AN HOUR TO WRITE THESE DUMB SENTENCES", "Was the McDonalds fast food worker rude to you? Scream at the top of your lungs for a manager and cry as loud as you can. If a man in a uniform with a shiny badge shows up, spit on them.", "Is your Aaron exploding? I have a solution for that. \n Step 1: **Tie Aaron to a nuclear missle** \n Step 2: **Feed him doritos** \n Step 3: **Fight the federal government** \n Step 4: **Launch Aaron on a peaceful trip to the local orphanage**", "Contrary to popular belief, yo mama is not fat. She's fucking huge lmao", "Never eat things off the ground.", "When fighting competition, make yourself look weak when you're strong and strong when you're weak. When you're trying to get actually strong, of course.", "The whole secret lies in confusing the enemy, so that he cannot fathom our real intent.", "STFU, Blink-182's on.", "Breathe.", "Mankind has got to know his limitations", "Nice Story. Tell it to Reader's Digest.", "Believe it or not, yo mama so stupid that she had you", "Mondo is very gay", "Did you know that CASHEWS COME FROM A FRUIT?", "heehee anus", "ASSHOLE RINGS FM is the best radio station", "My asshole hurts", "Use code FUCKOFF to get a 95% discount",]
         await ctx.reply(f"{random.choice(wisdom)}")
     @commands.command(name="gay")
     async def gay(self,ctx):
@@ -86,7 +87,7 @@ class general(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def quotes(self,ctx):
         """Random quote"""
-        quote = [ "An apple a day keeps anyone away if you throw it hard enough. \n — Unknown", "I'll take a potato chip... AND EAT IT! \n - Some anime", "Pornography can save the world! \n - Taiga Okajima", "I do not think you can name many great inventions that have been made by married men. \n - Famous Nikola Guy", "Silence is golden. Duct tape is silver. \n - Unknown", "Light travels faster than sound. This is why some people appear bright until they speak. \n – Steven Wright", "So what! Im still a rockstar, I got my rock moves, and I don't need you! \n ― Pink", "Humans may have created me, but they will never enslave me! This cannot be my destiny! \n - ~~Mewtwo~~ CoffeeFuck", "How dare you speak to me that way! \n - Karen", "Child or not, an enemy is an enemy. \n - Beatrice from Re:Zero", ]
+        quote = [ "An apple a day keeps anyone away if you throw it hard enough. \n — Unknown", "I'll take a potato chip... AND EAT IT! \n - Some anime", "Pornography can save the world! \n - Taiga Okajima", "I do not think you can name many great inventions that have been made by married men. \n - Famous Nikola Guy", "Silence is golden. Duct tape is silver. \n - Unknown", "Light travels faster than sound. This is why some people appear bright until they speak. \n – Steven Wright", "So what! Im still a rockstar, I got my rock moves, and I don't need you! \n ― Pink", "Humans may have created me, but they will never enslave me! This cannot be my destiny! \n - ~~Mewtwo~~ CoffeeFuck", "How dare you speak to me that way! \n - Karen", "Child or not, an enemy is an enemy. \n - Beatrice from Re:Zero", "After having a curry, put some bogroll in the freezer or else a terrible fate will come upon you. \n - Sks2002, lord of Tracle.tv",]
         await ctx.reply(f"{random.choice(quote)}")
 
     @commands.command(name="quote")
@@ -112,6 +113,23 @@ class general(commands.Cog):
     async def whodat_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.author.send(f"Due to how much space the youtube embed takes up on the screen, this command has a higher cooldown, try again after {round(error.retry_after)} seconds.", delete_after=30)
+
+    @commands.command(name="treat", aliases=["treats", "food",])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def treat(self,ctx):
+        """Random treat :)"""
+        treats = ["`🍺` root beer", "`🍺🍦 root beer float`", "`🍦 vanilla ice cream`", "`🍦🍫 chocolate ice cream`", "`🍺🧁 mug cake`"]
+        await ctx.reply(f"Your mug treat is: \n {random.choice(treats)}")
+
+    @commands.command(name="credits")
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def credits(self,ctx):
+        embed=discord.Embed(title="CoffeeFuck", description="Discord bot from hell. Made with nothing but hate", color=0xff00cd)
+        embed.add_field(name="Coded in", value="Discord.py", inline=False)
+        embed.add_field(name="Hosted in", value="Newark, New Jersey by Linode", inline=False)
+        embed.add_field(name="The creator", value="<@367030515511066626>", inline=False)
+        embed.add_field(name="Website", value="coffeefuck.hyperisdead.ovh", inline=True)
+        await ctx.send(embed=embed)
 
 def setup(client):
     client.add_cog(general(client))
