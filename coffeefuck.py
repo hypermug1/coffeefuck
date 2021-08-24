@@ -17,7 +17,7 @@ client = commands.Bot(
 )
 @client.event
 async def on_ready():
-    print("Bot ready.")
+    print("I hate having a dick. Anyway, let's get the party started.")
 
     watcher = Watcher(client, path="cogs", preload=True)
     await watcher.start()
@@ -33,9 +33,9 @@ class MyHelpCommand(commands.MinimalHelpCommand):
 client.help_command = MyHelpCommand()
 @tasks.loop(seconds=10.0)
 async def statustask(client):
-    statuses = ["rats fighting over food", "the leaves fall" , "pigeons", "for [mug help]", "you :)", "flowers grow", "seasons change", "the skies", "the rain fall", "a show"]
+    statuses = ["rats fighting over food", "the leaves fall" , "pigeons", "for [mug help]", "you :)", "flowers grow", "seasons change", "the skies", "the rain fall", "a show", "Netscape Navigator", "magic unfold", "The Labyrinth", "suffering unfold", "monstercat livestream", "sus unboxing", "tracle.tv",]
     newstatus = random.choice(statuses)
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{newstatus}"))
 
-#loads the "discord.com/developers" bot token in .env and starts the bot.
+# loads the bot token from .env
 client.run(os.getenv('TOKEN'))
