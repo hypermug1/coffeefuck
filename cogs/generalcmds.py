@@ -3,6 +3,7 @@ import discord
 import random
 import os
 import asyncio
+from discordTogether import DiscordTogether
 
 class general(commands.Cog):
     def __init__(self, client):
@@ -27,7 +28,7 @@ class general(commands.Cog):
     async def dump(self,ctx, member: discord.Member = None):
         """dump coffee on the ground or on a mentioned user or specified name."""
         if member:
-            embed=discord.Embed(color=0x9adbef)
+            embed=discord.Embed(color=0xe91e63)
             valuelist = ["Did you deserve this? Was this justified? I don't know, nor do I care. Fuck you I guess", "Get fuxked", "Say goodbye to those expensive clothes", "Are you going to cry to your mommy?"]
             embed.add_field(name=f"{member.display_name}, you just got a hot beverage dumped onto you", value=f"{random.choice(valuelist)}", inline=False)
             await ctx.send(embed=embed)
@@ -43,7 +44,7 @@ class general(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def slap(self,ctx):
         """You slap the mug, what happens next?"""
-        embed=discord.Embed(color=0x9adbef)
+        embed=discord.Embed(color=0xe91e63)
         embed.add_field(name="You slapped the mug, it then slid off the table and shattered into a million pieces",value="Are you going to cry about that little heart mug that your mother got you? You brought this upon yourself :expressionless:", inline=False)
         await ctx.reply(embed=embed)
 
@@ -53,10 +54,8 @@ class general(commands.Cog):
         """An action towards the mug. What the f*ck who would do this?"""
         if you == "you":
             await ctx.reply("Fuck you too")
-        elif you != "you":
-            await ctx.send("-_-")
         else:
-            embed=discord.Embed(color=0x9adbef)
+            embed=discord.Embed(color=0xe91e63)
             embed.add_field(name="You fucked the mug.",value="Are you proud of yourself for what you did? You didn't really think about the guilt you would feel, did you? You are now having an existential crisis all because of the unspeakable thing you have just done.", inline=False)
             await ctx.reply(embed=embed)
     @commands.command(name="us")
@@ -68,7 +67,7 @@ class general(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def drink(self,ctx):
         """drink from mug"""
-        embed=discord.Embed(color=0x9adbef)
+        embed=discord.Embed(color=0xe91e63)
         embed.add_field(name="You consumed a bit of caffeine :coffee:",value="Now you won't flatten 249 elementary school students on your way to work due to a caffeine withdrawal", inline=False)
         await ctx.reply(embed=embed)
 
@@ -100,8 +99,10 @@ class general(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def meme(self,ctx,*,args = None):
         """Text over an image"""
-        os.system(rf"cd /home/admin/commandline_meme_generator && mkmeme '{args}' -i 'https://hyperisdead.ovh/files/meme.png' -p ',200'")
-        await ctx.send(file=discord.File(r'/home/admin/commandline_meme_generator/output.jpg'))
+    # This uses a meme generator from the github project https://github.com/hemchander23/commandline_meme_generator
+        os.system(rf"cd /home/admin/commandline_meme_generator && mkmeme '{args}' -i 'https://hyperisdead.ovh/files/meme.png' -p ',200'") # replace with whatever you want as long as it works
+        await ctx.send(file=discord.File(r'/home/admin/commandline_meme_generator/output.jpg')) # replace with your own output path since this is mine
+        os.system(r"rm /home/admin/commandline_meme_generator/output.jpg")
 
     @commands.command(name="whodat",)
     @commands.cooldown(1, 30, commands.BucketType.user)
@@ -124,12 +125,31 @@ class general(commands.Cog):
     @commands.command(name="credits")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def credits(self,ctx):
-        embed=discord.Embed(title="CoffeeFuck", description="Discord bot from hell. Made with nothing but hate", color=0xff00cd)
+        embed=discord.Embed(title="CoffeeFuck", description="Discord bot from hell. Made with nothing but hate", color=0xe91e63)
         embed.add_field(name="Coded in", value="Discord.py", inline=False)
         embed.add_field(name="Hosted in", value="Newark, New Jersey by Linode", inline=False)
         embed.add_field(name="The creator", value="<@367030515511066626>", inline=False)
         embed.add_field(name="Website", value="coffeefuck.hyperisdead.ovh", inline=True)
         await ctx.send(embed=embed)
+
+    @commands.command(aliases=["stalk"])
+    async def userinfo(self, ctx, member: discord.Member = None):
+        if not member:  # if member is no mentioned
+            member = ctx.message.author  # set member as the author
+        roles = [role for role in member.roles]
+        embed = discord.Embed(colour=discord.Colour.magenta(), title=str(member))
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.add_field(name="Display Name:", value=member.display_name)
+        embed.add_field(name="User ID:", value=member.id)
+        embed.add_field(name="Account Created:", value=member.created_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+        embed.add_field(name="Joined Server:", value=member.joined_at.strftime("%a, %#d %B %Y, %I:%M %p UTC"))
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def ytparty(self,ctx):
+        togetherControl = DiscordTogether(self.client)
+        link = await togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
+        await ctx.send(f"Click the blue link!\n{link}")
 
 def setup(client):
     client.add_cog(general(client))
