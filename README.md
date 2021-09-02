@@ -16,5 +16,8 @@ The meme generator uses another project. Modify https://github.com/hemchander23/
 ## MY BOT DOESN'T MATCH YOURS?? WHY????
 I don't update this too frequently. And when I do, you have to reflect the changes in your code.
 
+## YOUR BOT BAD! IT DOES BAD THINGS! I WILL NEVER LET IT NEAR MY SERVER!
+Shut up Karen, the code is right here.
+
 ## What can I do with this?
 Basically whatever you want. I have the WTFPL license.
