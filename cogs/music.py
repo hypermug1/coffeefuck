@@ -31,7 +31,7 @@ ytdlopts = {
 }
 
 ffmpegopts = {
-    'before_options': '-nostdin -seekable 1 -reconnect 1 -reconnect_streamed 1 -fflags nobuffer',
+    'before_options': '-nostdin -seekable 1 -reconnect 1 -reconnect_streamed 1 -fflags flush_packets',
     'options': '-vn -dn -sn'
 }
 
