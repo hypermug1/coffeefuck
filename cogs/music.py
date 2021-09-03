@@ -31,8 +31,8 @@ ytdlopts = {
 }
 
 ffmpegopts = {
-    'before_options': '-nostdin -seekable 1 -reconnect 1 -reconnect_streamed 1',
-    'options': '-vn -dn -sn -af "firequalizer=gain_entry=\'entry(150,0); entry(350, -8); entry(1000, 0); entry(2000, 0)\'" -fflags nobuffer -filter:a "volume=1.5"'
+    'before_options': '-nostdin -seekable 1 -reconnect 1 -reconnect_streamed 1 -fflags nobuffer',
+    'options': '-vn -dn -sn'
 }
 
 ytdl = YoutubeDL(ytdlopts)
