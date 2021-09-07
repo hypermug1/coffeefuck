@@ -3,6 +3,8 @@ import discord
 import random
 import os
 import asyncio
+import json
+from collections import Counter
 from discordTogether import DiscordTogether
 
 class general(commands.Cog):
@@ -86,7 +88,7 @@ class general(commands.Cog):
     @commands.cooldown(1, 1, commands.BucketType.user)
     async def quotes(self,ctx):
         """Random quote"""
-        quote = [ "An apple a day keeps anyone away if you throw it hard enough. \n — Unknown", "I'll take a potato chip... AND EAT IT! \n - Some anime", "Pornography can save the world! \n - Taiga Okajima", "I do not think you can name many great inventions that have been made by married men. \n - Famous Nikola Guy", "Silence is golden. Duct tape is silver. \n - Unknown", "Light travels faster than sound. This is why some people appear bright until they speak. \n – Steven Wright", "So what! Im still a rockstar, I got my rock moves, and I don't need you! \n ― Pink", "Humans may have created me, but they will never enslave me! This cannot be my destiny! \n - ~~Mewtwo~~ CoffeeFuck", "How dare you speak to me that way! \n - Karen", "Child or not, an enemy is an enemy. \n - Beatrice from Re:Zero", "After having a curry, put some bogroll in the freezer or else a terrible fate will come upon you. \n - Sks2002, lord of Tracle.tv",]
+        quote = [ "An apple a day keeps anyone away if you throw it hard enough. \n — Unknown", "I'll take a potato chip... AND EAT IT! \n - Some anime", "Pornography can save the world! \n - Taiga Okajima", "I do not think you can name many great inventions that have been made by married men. \n - Famous Nikola Guy", "Silence is golden. Duct tape is silver. \n - Unknown", "Light travels faster than sound. This is why some people appear bright until they speak. \n – Steven Wright", "So what! Im still a rockstar, I got my rock moves, and I don't need you! \n ― Pink", "Humans may have created me, but they will never enslave me! This cannot be my destiny! \n - ~~Mewtwo~~ CoffeeFuck", "How dare you speak to me that way! \n - Karen", "Child or not, an enemy is an enemy. \n - Beatrice from Re:Zero", "After having a curry, put some bogroll in the freezer or else a terrible fate will come upon you. \n - Sks2002, lord of Tracle.tv", "cum \n - Trakoize",]
         await ctx.reply(f"{random.choice(quote)}")
 
     @commands.command(name="quote")
@@ -146,10 +148,36 @@ class general(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def ytparty(self,ctx):
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def party(self,ctx, arg = None):
+        """Do stuff in VC with your friends"""
         togetherControl = DiscordTogether(self.client)
-        link = await togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
-        await ctx.send(f"Click the blue link!\n{link}")
+        if arg == "youtube":
+            link = await togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
+            await ctx.send(f"Click the blue link!\n{link}")
+        if arg == "chess":
+            link = await togetherControl.create_link(ctx.author.voice.channel.id, 'chess')
+            await ctx.send(f"Click the blue link!\n{link}")
+        if arg == "poker":
+            link = await togetherControl.create_link(ctx.author.voice.channel.id, 'poker')
+            await ctx.send(f"Click the blue link!\n{link}")
+        if arg == "fishing":
+            link = await togetherControl.create_link(ctx.author.voice.channel.id, 'fishing')
+            await ctx.send(f"Click the blue link!\n{link}")
+        if arg == None:
+            await ctx.send("We have `youtube`, `chess`, `fishing`, and `poker`")
+
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def say(self, ctx,*, words = None):
+        """Say stuff"""
+        if words:
+            embed=discord.Embed(description=f"**{words}**", color=0xff00ff)
+            embed.set_footer(text=f"@{ctx.author.name}")
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("https://coffeefuck.hyperisdead.ovh/mugsay")
+
 
 def setup(client):
     client.add_cog(general(client))
