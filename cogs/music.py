@@ -14,7 +14,7 @@ from youtube_dl import YoutubeDL
 youtube_dl.utils.bug_reports_message = lambda: ''
 
 ytdlopts = {
-    'format': 'best',
+    'format': 'bestaudio/best',
     'outtmpl': 'downloads/%(extractor)s-%(id)s-%(title)s.%(ext)s',
     'restrictfilenames': True,
     'noplaylist': True,
@@ -32,7 +32,8 @@ ytdlopts = {
 
 ffmpegopts = {
     'before_options': '-nostdin -seekable 1 -reconnect 1 -reconnect_streamed 1 -fflags flush_packets',
-    'options': '-vn -dn -sn'
+    # basic stuff like removing video and subtitles, then giving a volume boost
+    'options': '-vn -dn -sn -filter:a "volume=3dB"'
 }
 
 ytdl = YoutubeDL(ytdlopts)
@@ -279,7 +280,7 @@ class music(commands.Cog):
                 raise VoiceConnectionError(f'Connecting to channel: <{channel}> timed out.')
         if (random.randint(0, 1) == 0):
             await ctx.message.add_reaction('<:psychofunny:859278377651404810>')
-        await ctx.send(f'**Joined `{channel}`**')
+        await ctx.message.add_reaction('👍')
 
     @commands.command(name='play', aliases=['sing','p','pl'], description="streams music")
     async def play_(self, ctx, *, search: str=None):
@@ -301,8 +302,7 @@ class music(commands.Cog):
         # If download is True, source will be a discord.FFmpegPCMAudio with a VolumeTransformer.
         source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop, download=False)
         if not player.msgswitch:
-          embed = discord.Embed(title="", description=f"Queued [{source['title']}]({source['webpage_url']}) [{ctx.author.mention}]", color=discord.Color.magenta())
-          await ctx.send(embed=embed)
+          await ctx.send(f"Queued **{source['title']}**")
         await player.queue.put(source)
 
     @commands.command(name='pause',aliases = ['pa','ps'], description="pauses music")
