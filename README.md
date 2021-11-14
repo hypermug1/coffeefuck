@@ -3,7 +3,7 @@ A bot from hell. Crafted with human sacrifice.
 
 ## Logging into the account and starting the code
 In `coffeefuck.py` there is a line of code that reads from .env to login and start the bot. Create a file called `.env` (cannot be anything else) and start with this:  
-```TOKEN=```  
+```DISCORD_TOKEN=```  
 Next, Go to discord.com/developers and copy your bot token. Then we should insert the bot token like this:  
 ```DISCORD_TOKEN=bot token goes here```  
 Save the file.  
