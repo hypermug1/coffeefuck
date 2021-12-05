@@ -3,24 +3,31 @@ import discord
 import asyncio
 import subprocess
 import random
+import os
 import typing
+import praw
 from discord_together import DiscordTogether
 class fun(commands.Cog):
     def __init__(self, client):
         self.client = client
-        self.counter = 32
     @commands.Cog.listener()
     async def on_message(self,message):
         mention = f'<@!{self.client.user.id}>'
-        if mention in message.content:
-            await message.channel.send("fuck you <:psychofunny:859278377651404810>")
+        if mention == message.content:
+            await message.author.send("fuck you <:psychofunny:859278377651404810>")
+        elif "mug go fucking die in a ditch ngl" == message.content:
+            await message.author.send("no u")
+        elif "coffeefuck sucks" == message.content.lower():
+            await message.author.send("no u suck")
+        elif "i\'m gay" == message.content.lower() or "im gay" == message.content.lower():
+            await message.author.send("congrats?")
+        elif "sus" == message.content.lower():
+            await message.author.send("sus is funny word xd")
 
-        if "mug go fucking die in a ditch ngl" in message.content.lower():
-            await message.channel.send("no u")
 
-    @commands.command(name="meme")
+    @commands.command(name="memer")
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def meme(self,ctx,*,message = None):
+    async def memer(self,ctx,*,message = None):
     # This uses a meme generator from the github project https://github.com/hemchander23/
         await ctx.send("creating trash... gimme a second")
         async with ctx.typing():
@@ -59,32 +66,14 @@ class fun(commands.Cog):
             my_ass += ('{} ').format(i)
 
         my_ass = my_ass.lower()
-        my_ass = my_ass.replace("he", "she")
-        my_ass = my_ass.replace("everyone ", "nobody")
-        my_ass = my_ass.replace("is", "isnt")
-        my_ass = my_ass.replace("god", "satan")
-        my_ass = my_ass.replace("the", "them")
-        my_ass = my_ass.replace("best", "worst")
-        my_ass = my_ass.replace("awesome", "awful")
-        my_ass = my_ass.replace("car", "truck")
-        my_ass = my_ass.replace("person", "arsonist")
-        my_ass = my_ass.replace("sky", "chicken")
-        my_ass = my_ass.replace("impostor", "spy")
-        my_ass = my_ass.replace("fuck", "phuck")
-        my_ass = my_ass.replace("no", "yes")
-        my_ass = my_ass.replace("my", "his")
-        my_ass = my_ass.replace("she", "he")
-        my_ass = my_ass.replace("ay", "aye")
-        my_ass = my_ass.replace("why", "cause")
-        my_ass = my_ass.replace("e", "i")
-        my_ass = my_ass.replace("e", "i")
-        my_ass = my_ass.replace("e", "i")
-        my_ass = my_ass.replace("i", "o")
-        my_ass = my_ass.replace("o", "e")
-        my_ass = my_ass.replace("y", "f")
-        my_ass = my_ass.replace("g", "go")
-        my_ass = my_ass.replace("a", "AAA")
-        my_ass = my_ass.replace("u", "ual")
+        my_ass = my_ass.replace(".", "B") 
+        my_ass = my_ass.replace("s", "sus")
+        my_ass = my_ass.replace("a", "nusa")
+        my_ass = my_ass.replace("l", "lusa")
+        my_ass = my_ass.replace("f", "fu")
+        my_ass = my_ass.replace("ni", "ninn")
+        my_ass = my_ass.replace("m", "mul")
+
 
 
 
@@ -95,20 +84,22 @@ class fun(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def throw(self, ctx, member: discord.Member = None):
         if member:
-            embed=discord.Embed(color=discord.Color.blue())
-            embed.add_field(name="OH SHIT", value=f"IT APPEARS **{ctx.author.name}** threw a mug at **{member.name}**! ***WHO'S PAYING FOR THE HOSPITAL BILL? FIND OUT ON THE NEXT EPISODE OF I HAVE NO IDEA.***", inline=False)
+            embed=discord.Embed(title="Setting: Cafe", description=f"{ctx.author.name} is sitting at a table in a busy cafe.", color=discord.Color.red())
+            embed.add_field(name=f"Out of pure anger, *{ctx.author.name}* throws a mug at *{member.name}*", value=f"The mug shatters into a million pieces, leaving *{member.name}* with injuries, the hot beverage burning their body.", inline=False)
             await ctx.send(embed=embed)
         else:
-            await ctx.send(f"A poor coffee shop worker just got fucking murdered with a mug. This is not what you're SUPPOSED TO DO! You're supposed to PING SOMEONE IN THE COMMAND")
+            embed=discord.Embed(title="Setting: Cafe", description=f"{ctx.author.name} is sitting at a table in a busy cafe, visibly frustrated at something unknown.", color=discord.Color.red())
+            embed.add_field(name=f"Out of pure frustration and anger, *{ctx.author.name}* throws a mug at A POOR MINIMUM WAGE WORKER", value=f"The mug shatters into a million pieces, leaving them with injuries. The employee walks out of the building crying. YOU'RE SUPPOSED TO PING SOMEONE YOU MONSTER! LOOK WHAT YOU DID!", inline=False)
+            await ctx.send(embed=embed)
     @commands.command()
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def fuck(self, ctx,*, argument = None):
         if argument == None:
             await ctx.send(f"{ctx.author.name} fucked a mug. Why? Because they wanted to.")
-        elif argument:
-            await ctx.send(f"A mug has been sent to do unholy things to {str(argument)}")
         elif argument == "you":
             await ctx.send("Fuck you too")
+        else:
+            await ctx.send(f"A mug is magically running to screw {str(argument)}")
 
     @commands.command()
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -142,17 +133,38 @@ class fun(commands.Cog):
     async def blart(self,ctx):
         await ctx.message.add_reaction('<:psychofunny:859278377651404810>')
         await ctx.reply("https://media.discordapp.net/attachments/875508257924448317/902006682606002307/oh_my_god_pleas_help.PNG?width=280&height=468")
-    @commands.command()
-    @commands.cooldown(1,5,commands.BucketType.user)
-    async def touch(self, ctx):
-        self.counter += 1
-        embed=discord.Embed(color=discord.Color.blue())
-        embed.add_field(name="Great! FANTASTIC! ABSOLUTELY MARVELOUS!", value=f"Thanks to you annoying fricks, this already dirty mug has been touched by your filthy hands **{self.counter}** time since I have been awake.", inline=False)
-        embed.set_footer(text="I slammed my head against my desk and got brain damage trying to use a database here. Eventually, I gave up and now the counter resets when the bot is updated/restarted.")
-        await ctx.send(embed=embed)
     @commands.command(aliases=["milk"])
     @commands.cooldown(1,5,commands.BucketType.user)
     async def cum(self,ctx):
         await ctx.send("https://i.ibb.co/sRTfS4V/image.jpg")
+    
+    @commands.command()
+    @commands.cooldown(1,10,commands.BucketType.user)
+    async def toothbrush(self,ctx):
+        await ctx.send("I'm shoving this down your throat \n https://i.ibb.co/T2rNSsz/image.png")
+    @commands.command()
+    @commands.cooldown(1, 10,commands.BucketType.user)
+    async def drink(self,ctx):
+        embed=discord.Embed(title="Setting: Cafe", description=f"{ctx.author.name} is sitting at a table in a busy cafe.", color=discord.Color.green())
+        embed.add_field(name="You drink some tea from a mug", value=f"{ctx.author.name} feels refreshed and ready to continue on with their day. Satisfied with the experience, {ctx.author.name} leaves the cafe.", inline=False)
+        await ctx.send(embed=embed)
+
+
+    @commands.command(name="r-meme", aliases=["redditmeme"])
+    async def r_meme(self,ctx):
+        await ctx.reply("Fetching trash from r/memes. I don't know why I added this...")
+        reddit = praw.Reddit(
+            client_id="add this yourself",
+            client_secret="add this yourself",
+            password=f"{os.getenv('REDDIT_PASSWORD')}", # Create a new variable like we did with DISCORD_TOKEN
+            user_agent="Add whatever. Doesn't matter",
+            username="username that aligns with the password",
+        )
+        sub_submissions = reddit.subreddit('memes').hot()
+        post_to_pick = random.randint(1, 99)
+        for i in range(0, post_to_pick):
+            submission = next(x for x in sub_submissions if not x.stickied)
+        e = discord.Embed(title=f'It\'s surprising that I did no drugs making this command that grabs stuff from reddit', description=f'{submission.title}', color=discord.Color.blue())
+        await ctx.send(f"\n {submission.url}")
 def setup(client):
     client.add_cog(fun(client))
