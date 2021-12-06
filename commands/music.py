@@ -7,9 +7,8 @@ import sys
 import traceback
 from async_timeout import timeout
 from functools import partial,wraps
-import youtube_dl
-from youtube_dl import YoutubeDL
-
+import yt_dlp as youtube_dl
+from yt_dlp import YoutubeDL
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -27,6 +26,7 @@ ytdlopts = {
     'no_warnings': False,
     'cookiefile': 'youtube_cookie.txt',
     'default_search': 'auto',
+    'geo_bypass': None,
 }
 
 ffmpegopts = {
@@ -174,7 +174,7 @@ class MusicPlayer:
             self._guild.voice_client.play(source, after=lambda _: self.repeat_state(self))
 
             if not self.msgswitch:
-              embed = discord.Embed(title=":desktop: Now playing :penguin:", description=f"[{source.title}]({source.web_url}) [{source.requester.mention}]", color=discord.Color.blue())
+              embed = discord.Embed(title=":desktop: Groovin :penguin:", description=f"[{source.title}]({source.web_url}) [{source.requester.mention}]", color=discord.Color.blue())
               self.np = await self._channel.send(embed=embed)
             await self.next.wait()
             # Make sure the FFmpeg process is cleaned up.
@@ -249,7 +249,7 @@ class music(commands.Cog):
 
         return player
 
-    @commands.command(name='join', aliases=['connect', 'j'], description="connects to voice")
+    @commands.command(name='join', aliases=['connect', 'j', "voin"], description="connects to voice")
     async def connect_(self, ctx, *, channel: discord.VoiceChannel=None):
         """
         Connects the bot to the voice chat and stuff. You can specify a voice channel or alternatively have it join the same one as you.
@@ -344,9 +344,11 @@ class music(commands.Cog):
             pass
         elif not vc.is_playing():
             return
-
-        vc.stop()
-        await ctx.message.add_reaction('😏')
+        elif not ctx.author.voice or vc.channel.id!=ctx.author.voice.channel.id:
+            await ctx.send("You are not in that voice channel. You can't skip anything")
+        else:
+            vc.stop()
+            await ctx.message.add_reaction('😏')
 
     @commands.command(name='remove', aliases=['rm', 'rem'], description="removes specified song from queue")
     async def remove_(self, ctx, pos : int=None):
@@ -514,7 +516,7 @@ class music(commands.Cog):
 
         if (random.randint(0, 1) == 0):
             await ctx.message.add_reaction('🖕')
-        await ctx.send('**I destroyed this place :volcano:**')
+        await ctx.send('** haha boom boom bass :volcano:**')
 
         await self.cleanup(ctx.guild)
     @commands.command(name="repeat", aliases=["loop","lp","rp"], description="Sets the queue or song on repeat.")
