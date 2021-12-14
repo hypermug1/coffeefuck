@@ -7,8 +7,9 @@ import os
 import typing
 import praw
 from discord_together import DiscordTogether
+from neuralintents import GenericAssistant
 class fun(commands.Cog):
-    def __init__(self, client):
+    def __init__(self, client,):
         self.client = client
     @commands.Cog.listener()
     async def on_message(self,message):
@@ -16,6 +17,8 @@ class fun(commands.Cog):
         if mention == message.content:
             await message.author.send("fuck you <:psychofunny:859278377651404810>")
         elif "mug go fucking die in a ditch ngl" == message.content:
+            await message.author.send("no u")
+        elif "mug fucking go die in a ditch ngl" == message.content:
             await message.author.send("no u")
         elif "coffeefuck sucks" == message.content.lower():
             await message.author.send("no u suck")
@@ -26,10 +29,10 @@ class fun(commands.Cog):
 
 
     @commands.command(name="memer")
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def memer(self,ctx,*,message = None):
     # This uses a meme generator from the github project https://github.com/hemchander23/
-        await ctx.send("creating trash... gimme a second")
+        await ctx.send("creating trash... gimme a second", delete_after=2)
         async with ctx.typing():
             args = str(message)
             subprocess.run("cd /home/admin/commandline_meme_generator && mkmeme \"{}\" -i 'https://a.pomf.cat/iesrml.png' -p ',200' -o /home/admin/commandline_meme_generator/output.jpg".format(args),shell=True) # replace with whatever you want as long as it works
@@ -40,11 +43,11 @@ class fun(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def slap(self,ctx, user: discord.User = None):
         if user is None:
-            embed=discord.Embed(color=discord.Color.blue())
+            embed=discord.Embed(color=discord.Color.green())
             embed.add_field(name="You slapped the mug, it then slid off the table and shattered into a million pieces",value="Are you going to cry about that little heart mug that your mother got you? You brought this upon yourself :expressionless:", inline=False)
             await ctx.reply(embed=embed)
         else:
-            embed=discord.Embed(color=discord.Color.blue())
+            embed=discord.Embed(color=discord.Color.green())
             embed.add_field(name="WHAM!",value=f"{user.name} got hit by a mug!", inline=False)
             await ctx.reply(embed=embed)
     @commands.command()
@@ -102,14 +105,15 @@ class fun(commands.Cog):
             await ctx.send(f"A mug is magically running to screw {str(argument)}")
 
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def gay(self,ctx,*, member: discord.Member = None):
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    async def gay(self,ctx,*, member: discord.Member = None,):
         if member:
             await ctx.send("creating trash... gimme a second")
             async with ctx.typing():
                 subprocess.run("cd /home/admin/commandline_meme_generator && mkmeme \"{} be like\" -i 'https://a.pomf.cat/qtmybm.png' -p ',200' -o output.jpg".format(member.name),shell=True)
                 await ctx.send(file=discord.File(r'/home/admin/commandline_meme_generator/output.jpg'))
                 subprocess.run(r"rm /home/admin/commandline_meme_generator/output.jpg", shell=True)
+                await member.edit(nick="hypermug1")
         else:
             await ctx.send("https://a.pomf.cat/qtmybm.png")
 
@@ -125,7 +129,7 @@ class fun(commands.Cog):
             if bad_words in arg.lower():
                 return
         if bad_words not in arg.lower():
-            embed=discord.Embed(color=discord.Color.blue())
+            embed=discord.Embed(color=discord.Color.green())
             embed.add_field(name=f"{ctx.author.name}:", value=f"{arg}", inline=False)
             await ctx.send(embed=embed)
     @commands.command()
@@ -134,7 +138,7 @@ class fun(commands.Cog):
         await ctx.message.add_reaction('<:psychofunny:859278377651404810>')
         await ctx.reply("https://media.discordapp.net/attachments/875508257924448317/902006682606002307/oh_my_god_pleas_help.PNG?width=280&height=468")
     @commands.command(aliases=["milk"])
-    @commands.cooldown(1,5,commands.BucketType.user)
+    @commands.cooldown(1,10,commands.BucketType.user)
     async def cum(self,ctx):
         await ctx.send("https://i.ibb.co/sRTfS4V/image.jpg")
     
@@ -150,21 +154,38 @@ class fun(commands.Cog):
         await ctx.send(embed=embed)
 
 
-    @commands.command(name="r-meme", aliases=["redditmeme"])
-    async def r_meme(self,ctx):
+    @commands.command(name="redditmeme", aliases=["r_meme"])
+    @commands.cooldown(3, 10, commands.BucketType.user)
+    async def rmeme(self,ctx):
         await ctx.reply("Fetching trash from r/memes. I don't know why I added this...")
         reddit = praw.Reddit(
-            client_id="add this yourself",
-            client_secret="add this yourself",
-            password=f"{os.getenv('REDDIT_PASSWORD')}", # Create a new variable like we did with DISCORD_TOKEN
-            user_agent="Add whatever. Doesn't matter",
-            username="username that aligns with the password",
+            client_id="hHTlr9I-znQmVe-BZd4nsg",
+            client_secret="-q0RZ-xt2_z0c8j15aiiFRSXr6MDyQ",
+            password=f"{os.getenv('REDDIT_PASSWORD')}",
+            user_agent="discord bot (abuse complaints: hypermug1@horsefucker.org)",
+            username="hypermug1",
         )
         sub_submissions = reddit.subreddit('memes').hot()
-        post_to_pick = random.randint(1, 99)
+        post_to_pick = random.randint(1, 100)
         for i in range(0, post_to_pick):
             submission = next(x for x in sub_submissions if not x.stickied)
-        e = discord.Embed(title=f'It\'s surprising that I did no drugs making this command that grabs stuff from reddit', description=f'{submission.title}', color=discord.Color.blue())
-        await ctx.send(f"\n {submission.url}")
+        await ctx.reply(f"{submission.url}")
+    
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def talk(self,ctx,*, arg = None):
+        async with ctx.typing():
+            if arg == None:
+                await ctx.reply("example: `mug talk hello`")
+            else:
+                # you have to train this shit. watch a tutorial dipshit
+                brain = GenericAssistant('responses1.json')
+                brain.train_model()
+                brain.save_model()
+                response = brain.request(arg)
+                embed=discord.Embed(title="beep bop bitch", color=discord.Color.green())
+                embed.add_field(name="Response:", value=f"{response}", inline=False)
+     
+                await ctx.reply(embed=embed)
 def setup(client):
     client.add_cog(fun(client))
